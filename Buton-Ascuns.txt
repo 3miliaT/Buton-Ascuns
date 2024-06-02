@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Butonul Ascuns</title>
+    <style>
+        .button-container {
+            margin: 20px 0;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Butonul Ascuns</h1>
+    <div class="button-container" id="button-container">
+        <!-- Butoanele vor fi generate aici -->
+    </div>
+    <div class="message" id="message"></div>
+
+    <h2>Generare Butoane</h2>
+    <input type="number" id="number-input" placeholder="Introdu un număr">
+    <button onclick="generateButtons()">Generează Butoane</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            generateButtons(3); // La încărcarea paginii, generează 3 butoane
+        });
+
+        function generateButtons(numberOfButtons = 3) {
+            const buttonContainer = document.getElementById('button-container');
+            const messageDiv = document.getElementById('message');
+            buttonContainer.innerHTML = ''; // Curăță butoanele existente
+            messageDiv.textContent = ''; // Curăță mesajul existent
+
+            const winningButtonIndex = Math.floor(Math.random() * numberOfButtons);
+
+            for (let i = 0; i < numberOfButtons; i++) {
+                const button = document.createElement('button');
+                button.textContent = `Buton ${i + 1}`;
+                button.addEventListener('click', () => {
+                    if (i === winningButtonIndex) {
+                        messageDiv.textContent = 'Felicitări! Ai găsit butonul câștigător!';
+                    } else {
+                        messageDiv.textContent = 'Ne pare rău, încearcă din nou!';
+                    }
+                });
+                buttonContainer.appendChild(button);
+            }
+        }
+
+        function generateButtonsFromInput() {
+            const numberInput = document.getElementById('number-input');
+            const numberOfButtons = parseInt(numberInput.value, 10);
+            if (!isNaN(numberOfButtons) && numberOfButtons > 0) {
+                generateButtons(numberOfButtons);
+            } else {
+                alert('Te rog să introduci un număr valid.');
+            }
+        }
+
+        document.querySelector('button').addEventListener('click', generateButtonsFromInput);
+    </script>
+</body>
+</html>
