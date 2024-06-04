@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butonul Ascuns</title>
+    <title>Hidden Button</title>
     <style>
         .button-container {
             margin: 20px 0;
@@ -15,40 +15,43 @@
     </style>
 </head>
 <body>
-    <h1>Butonul Ascuns</h1>
+    <h1>Hidden Button</h1>
     <div class="button-container" id="button-container">
-        <!-- Butoanele vor fi generate aici -->
+        <!-- Buttons will be generated here -->
     </div>
     <div class="message" id="message"></div>
 
-    <h2>Generare Butoane</h2>
-    <input type="number" id="number-input" placeholder="Introdu un număr">
-    <button onclick="generateButtons()">Generează Butoane</button>
+    <h2>Generate Buttons</h2>
+    <input type="number" id="number-input" placeholder="Enter a number">
+    <button onclick="generateButtonsFromInput()">Generate Buttons</button>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            generateButtons(3); // La încărcarea paginii, generează 3 butoane
+            generateButtons(3); // Generate 3 buttons on page load
         });
 
         function generateButtons(numberOfButtons = 3) {
             const buttonContainer = document.getElementById('button-container');
             const messageDiv = document.getElementById('message');
-            buttonContainer.innerHTML = ''; // Curăță butoanele existente
-            messageDiv.textContent = ''; // Curăță mesajul existent
+            buttonContainer.innerHTML = ''; // Clear existing buttons
+            messageDiv.textContent = ''; // Clear existing message
 
             const winningButtonIndex = Math.floor(Math.random() * numberOfButtons);
 
             for (let i = 0; i < numberOfButtons; i++) {
                 const button = document.createElement('button');
-                button.textContent = `Buton ${i + 1}`;
-                button.addEventListener('click', () => {
-                    if (i === winningButtonIndex) {
-                        messageDiv.textContent = 'Felicitări! Ai găsit butonul câștigător!';
-                    } else {
-                        messageDiv.textContent = 'Ne pare rău, încearcă din nou!';
-                    }
-                });
+                button.textContent = `Button ${i + 1}`;
+                button.setAttribute('onclick', `checkButton(${i}, ${winningButtonIndex})`);
                 buttonContainer.appendChild(button);
+            }
+        }
+
+        function checkButton(clickedIndex, winningIndex) {
+            const messageDiv = document.getElementById('message');
+            if (clickedIndex === winningIndex) {
+                messageDiv.textContent = 'Congratulations! You found the winning button!';
+            } else {
+                messageDiv.textContent = 'Sorry, try again!';
             }
         }
 
@@ -58,11 +61,9 @@
             if (!isNaN(numberOfButtons) && numberOfButtons > 0) {
                 generateButtons(numberOfButtons);
             } else {
-                alert('Te rog să introduci un număr valid.');
+                alert('Please enter a valid number.');
             }
         }
-
-        document.querySelector('button').addEventListener('click', generateButtonsFromInput);
     </script>
 </body>
 </html>
