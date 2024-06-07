@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Button</title>
+    <style>
+        .button-container {
+            margin: 20px 0;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hidden Button</h1>
+    <div class="button-container" id="button-container">
+        <!-- Buttons will be generated here -->
+    </div>
+    <div class="message" id="message"></div>
+
+    <h2>Generate Buttons</h2>
+    <input type="number" id="number-input" placeholder="Enter a number">
+    <button onclick="generateButtonsFromInput()">Generate Buttons</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            generateButtons(3); // Generate 3 buttons on page load
+        });
+
+        function generateButtons(numberOfButtons = 3) {
+            const buttonContainer = document.getElementById('button-container');
+            const messageDiv = document.getElementById('message');
+            buttonContainer.innerHTML = ''; // Clear existing buttons
+            messageDiv.textContent = ''; // Clear existing message
+
+            const winningButtonIndex = Math.floor(Math.random() * numberOfButtons);
+
+            for (let i = 0; i < numberOfButtons; i++) {
+                const button = document.createElement('button');
+                button.textContent = `Button ${i + 1}`;
+                button.setAttribute('onclick', `checkButton(${i}, ${winningButtonIndex})`);
+                buttonContainer.appendChild(button);
+            }
+        }
+
+        function checkButton(clickedIndex, winningIndex) {
+            const messageDiv = document.getElementById('message');
+            if (clickedIndex === winningIndex) {
+                messageDiv.textContent = 'Congratulations! You found the winning button!';
+            } else {
+                messageDiv.textContent = 'Sorry, try again!';
+            }
+        }
+
+        function generateButtonsFromInput() {
+            const numberInput = document.getElementById('number-input');
+            const numberOfButtons = parseInt(numberInput.value, 10);
+            if (!isNaN(numberOfButtons) && numberOfButtons > 0) {
+                generateButtons(numberOfButtons);
+            } else {
+                alert('Please enter a valid number.');
+            }
+        }
+    </script>
+</body>
+</html>
